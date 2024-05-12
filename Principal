@@ -3,6 +3,7 @@
 
 void strprnt(char n[]);
 void separador();
+void SALmenu(int c);
 
 int main()
 {
@@ -11,10 +12,13 @@ char nombre[150];
 char direc[150];
 char opc;
 int depto;
-    
+
+char Abc[][6]={"A", "B", "C", "D", "E", "F"};
+float precios[4][6] = {{11.11,12.12,13.13,14.14,15.15,16.16,17.17}, {21,22,23,24,25,26,27}, {31,32,33,34,35,36,37}, {41,42,43,44,45,46,47}, {51,52,53,54,55,56,57}};
+
 printf("\nHola! Bienvenido a la tienda en línea de IKEA\n\n");
 opc = 'n';
-    
+
 do
     {  
     printf("\nCual es tu nombre?\t");
@@ -26,15 +30,15 @@ do
     printf(", Podrías compartirnos tu dirección?\t");    
 
     gets(direc);
-        
+
     printf("\n\nDe acuerdo, entonces tu domicilio es ");
     strprnt(direc);
     printf(",\nahí se hará la entrega de tus productos.\n\n");
-        
+
     separador();
-        
+
     printf("\n\nAntes de continuar revisemos tus datos :)\n\n");
-        
+
     strprnt(nombre);
     printf("\n");
     strprnt(direc);
@@ -43,7 +47,7 @@ do
     printf("\n\n");
     }
     while(opc == 'n'); //No pide el nombre cuando da loop
-    
+
 separador();
 
 printf("\n\nA continuación te presentamos los diferentes departamentos que tenemos en línea.");
@@ -59,13 +63,23 @@ switch (depto)
     case 1:
         separador();
         printf("\n\n\t\t\t*** SALA ***\n\n");
+        
+        for(int c=0;c<6;c++)
+            {
+            printf("%s\t",Abc[c]);
+            SALmenu(c);
+            printf("\t$ %.2f\n\t", precios[0][c]);
+            SALmenu(c+7);
+            printf("\n\n");
+            }
+        
     break;
 
     case 2:
         separador();
         printf("\n\n\t\t\t*** BAÑO ***\n\n");
     break;
-    
+
     case 3:
         separador();
         printf("\n\n\t\t\t*** CUARTO ***\n\n");
@@ -87,14 +101,20 @@ switch (depto)
 
 void strprnt(char n[])
     {
-    int c;
-    for (c=0; c < strlen(n); c++)
+    for (int c=0; c < strlen(n); c++)
         {
         printf("%c",n[c]);
         }
     }
-    
+
 void separador()
+  {
+  printf("* - * - * - * - * - * - * - * - * - * - * - * - *");
+  }
+
+void SALmenu(int c)
     {
-    printf("º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o");
-    }
+    char SAt[][150] = {"Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxes", "Golfo", "Lorem ipsum dolor sit amet, consectetur adipiscing.", "Morbi vestibulum nunc eget velit hendrerit, vitae.", "Pellentesque ac eros vel velit efficitur sollicitudin.", "Duis vitae vehicula sem. Pellentesque euismod eget.", "Fusce ut ipsum vitae dui sagittis sagittis.", "Morbi a tortor in urna dictum feugiat.", "Integer a sodales lectus. Fusce mattis enim."};
+
+    printf("%s\t", SAt[c]);
+    }   
