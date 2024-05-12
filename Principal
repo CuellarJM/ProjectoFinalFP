@@ -1,9 +1,58 @@
-//C compiler
-#include <stdio.h>
+#include<stdio.h>
 
-int main() {
-    // Write C code here
-    printf("Hello");
+void strprnt(char n[]);
+void separador();
+int main()
+{
+    char nombre[150];
+    char direc[150];
+    char opc;
+    
+    printf("Hola! Bienvenido a la tienda en línea de IKEA\n\n");
+    opc = 'n';
+    
+    do
+    {
+    
+    printf("\nCual es tu nombre?\t");
+    
+    gets(nombre);
+    
+    printf("\nExcelente "); 
+    strprnt(nombre);
+    printf(", Podrías compartirnos tu dirección?\t");    
 
-    return 0;
+    gets(direc);
+    
+    printf("\n\nDe acuerdo, entonces tu domicilio es ");
+    strprnt(direc);
+    printf(",\nahí se hará la entrega de tus productos.\n\n");
+    
+    separador();
+    
+    printf("\n\nAntes de continuar revisemos tus datos :)\n\n");
+    
+    strprnt(nombre);
+    printf("\n");
+    strprnt(direc);
+    printf("\n\nEstás de acuerdo? [s/n]\t");
+    scanf("%c",&opc);
+    }
+    while(opc == 'n');
+    
+    printf(":D");
 }
+
+void strprnt(char n[])
+    {
+    int c;
+    for (c=0; c < strlen(n); c++)
+        {
+        printf("%c",n[c]);
+        }
+    }
+    
+void separador()
+    {
+    printf("º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o");
+    }
