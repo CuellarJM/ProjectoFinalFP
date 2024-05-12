@@ -1,46 +1,88 @@
 #include<stdio.h>
+#include<string.h>
 
 void strprnt(char n[]);
 void separador();
+
 int main()
 {
-    char nombre[150];
-    char direc[150];
-    char opc;
+
+char nombre[150];
+char direc[150];
+char opc;
+int depto;
     
-    printf("Hola! Bienvenido a la tienda en línea de IKEA\n\n");
-    opc = 'n';
+printf("\nHola! Bienvenido a la tienda en línea de IKEA\n\n");
+opc = 'n';
     
-    do
-    {
-    
+do
+    {  
     printf("\nCual es tu nombre?\t");
-    
-    gets(nombre);
-    
+
+    gets(nombre); //PROBLEMA CON LOOP
+
     printf("\nExcelente "); 
     strprnt(nombre);
     printf(", Podrías compartirnos tu dirección?\t");    
 
     gets(direc);
-    
+        
     printf("\n\nDe acuerdo, entonces tu domicilio es ");
     strprnt(direc);
     printf(",\nahí se hará la entrega de tus productos.\n\n");
-    
+        
     separador();
-    
+        
     printf("\n\nAntes de continuar revisemos tus datos :)\n\n");
-    
+        
     strprnt(nombre);
     printf("\n");
     strprnt(direc);
     printf("\n\nEstás de acuerdo? [s/n]\t");
     scanf("%c",&opc);
+    printf("\n\n");
     }
-    while(opc == 'n');
+    while(opc == 'n'); //No pide el nombre cuando da loop
     
-    printf(":D");
+separador();
+
+printf("\n\nA continuación te presentamos los diferentes departamentos que tenemos en línea.");
+
+printf("\n\n1) SALA\n2) BAÑO\n3) CUARTO\n4) COCINA\n5) PATIO\n6) SALIR");
+
+printf("\n\nA qué departamento deseas visitar primero?\t");
+scanf("%i",&depto);
+printf("\n\n");
+
+switch (depto)
+{
+    case 1:
+        separador();
+        printf("\n\n\t\t\t*** SALA ***\n\n");
+    break;
+
+    case 2:
+        separador();
+        printf("\n\n\t\t\t*** BAÑO ***\n\n");
+    break;
+    
+    case 3:
+        separador();
+        printf("\n\n\t\t\t*** CUARTO ***\n\n");
+    break;
+
+    case 4:
+        separador();
+        printf("\n\n\t\t\t*** COCINA ***\n\n");;
+    break;
+
+    case 5:
+        separador();
+        printf("\n\n\t\t\t*** PATIO ***\n\n");
+    break;
+
+}
+
 }
 
 void strprnt(char n[])
@@ -54,5 +96,5 @@ void strprnt(char n[])
     
 void separador()
     {
-    printf("º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o");
+    printf("º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o º o");
     }
