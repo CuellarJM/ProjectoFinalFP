@@ -1,35 +1,53 @@
 #include<stdio.h>
 #include<string.h>
 
+float precios[5][7] = {{11,12,13,14,15,16,17}, {21,22,23,24,25,26,27}, {31,32,33,34,35,36,37}, {41,42,43,44,45,46,47}, {51,52,53,54,55,56,57}};
+
+char SAt[][150] = {"Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxes", "Golfo", "Lorem ipsum dolor sit amet, consectetur adipiscing.", "Morbi vestibulum nunc eget velit hendrerit, vitae.", "Pellentesque ac eros vel velit efficitur sollicitudin.", "Duis vitae vehicula sem. Pellentesque euismod eget.", "Fusce ut ipsum vitae dui sagittis sagittis.", "Morbi a tortor in urna dictum feugiat.", "Integer a sodales lectus. Fusce mattis enim."};
+
 void strprnt(char n[]);
 void separador();
 void SALmenu(int c);
+int addprod(int *p, int *q);
+void ticketprnt();
+void checkticket(int n);
+
+int ticket[6][8];
 
 int main()
 {
 
 char nombre[150];
 char direc[150];
-char opc;
-int depto;
 
-char Abc[][6]={"A", "B", "C", "D", "E", "F"};
-float precios[4][6] = {{11.11,12.12,13.13,14.14,15.15,16.16,17.17}, {21,22,23,24,25,26,27}, {31,32,33,34,35,36,37}, {41,42,43,44,45,46,47}, {51,52,53,54,55,56,57}};
+char opc, mas;
+int flag, depto, prod = 0, cant = 0;
+
+char Abc[][6]={"A", "B", "C", "D", "E", "F", "G"};
+
+
+    for (int i = 0; i < 5; i++)
+        {
+        for (int j = 0; j < 7; j++)
+            {
+            ticket[i][j] = 0;
+            }
+        }
 
 printf("\nHola! Bienvenido a la tienda en línea de IKEA\n\n");
 opc = 'n';
 
 do
-    {  
+    {
+    fflush(stdin);
+    
     printf("\nCual es tu nombre?\t");
-
     gets(nombre); //PROBLEMA CON LOOP
-
     printf("\nExcelente "); 
     strprnt(nombre);
     printf(", Podrías compartirnos tu dirección?\t");    
-
     gets(direc);
+
 
     printf("\n\nDe acuerdo, entonces tu domicilio es ");
     strprnt(direc);
@@ -43,13 +61,16 @@ do
     printf("\n");
     strprnt(direc);
     printf("\n\nEstás de acuerdo? [s/n]\t");
-    scanf("%c",&opc);
+    scanf(" %c",&opc);
     printf("\n\n");
     }
     while(opc == 'n'); //No pide el nombre cuando da loop
 
+do
+{
 separador();
-
+separador();
+    
 printf("\n\nA continuación te presentamos los diferentes departamentos que tenemos en línea.");
 
 printf("\n\n1) SALA\n2) BAÑO\n3) CUARTO\n4) COCINA\n5) PATIO\n6) SALIR");
@@ -58,20 +79,35 @@ printf("\n\nA qué departamento deseas visitar primero?\t");
 scanf("%i",&depto);
 printf("\n\n");
 
+opc = 'n';
 switch (depto)
 {
     case 1:
         separador();
         printf("\n\n\t\t\t*** SALA ***\n\n");
         
-        for(int c=0;c<6;c++)
+        for(int c=0;c<7;c++)
             {
             printf("%s\t",Abc[c]);
             SALmenu(c);
-            printf("\t$ %.2f\n\t", precios[0][c]);
+            printf("\t$ %.2f\n\t", precios[depto-1][c]);
             SALmenu(c+7);
             printf("\n\n");
             }
+        
+        do
+            {
+            addprod(&prod, &cant);
+            ticket[depto][prod] = ticket[depto][prod] + cant;
+            ticket[depto][0] = ticket[depto][0] + cant;
+            ticket[0][5] = ticket[0][5] + ticket[depto][prod]*precios[depto-1][prod-1];
+
+            ticketprnt();
+                
+            printf("\n\nDeseas agregar otro producto? [s/n]\t");
+            scanf(" %c",&opc);
+            }
+        while (opc == 's');
         
     break;
 
@@ -94,10 +130,38 @@ switch (depto)
         separador();
         printf("\n\n\t\t\t*** PATIO ***\n\n");
     break;
-
+}         
 }
+while (depto != 6);
 
+ticket[0][4] = ticket[1][0] + ticket[2][0] +ticket[3][0] + ticket[4][0] + ticket[5][0];
+
+float total_cost = 0.0;
+for (int i = 1; i <= 5; i++) {
+    for (int j = 1; j <= 7; j++) {
+        total_cost += ticket[i][j] * precios[i-1][j-1];
+        }
+    }
+    
+separador();
+
+printf("\n\nBienvenido al área de checkout!\n");
+printf("Revisemos tu ticket :)\n\n");
+
+for(int c=1;c<=5;c++)
+    {
+            checkticket(c);
+    }
+printf("\n\n\t\t");
+printf("TOTAL de productos en tu ticket = %i", ticket[0][4]);
+printf("\n\t\t");
+printf("TOTAL en tu ticket = $%.2f", total_cost);
+    
 }
+//FIN CODIGO
+    
+
+//FUNCIONES
 
 void strprnt(char n[])
     {
@@ -109,12 +173,61 @@ void strprnt(char n[])
 
 void separador()
   {
-  printf("* - * - * - * - * - * - * - * - * - * - * - * - *");
+  printf("\n* - * - * - * - * - * - * - * - * - * - * - * - *");
   }
 
 void SALmenu(int c)
     {
-    char SAt[][150] = {"Alfa", "Bravo", "Charlie", "Delta", "Echo", "Foxes", "Golfo", "Lorem ipsum dolor sit amet, consectetur adipiscing.", "Morbi vestibulum nunc eget velit hendrerit, vitae.", "Pellentesque ac eros vel velit efficitur sollicitudin.", "Duis vitae vehicula sem. Pellentesque euismod eget.", "Fusce ut ipsum vitae dui sagittis sagittis.", "Morbi a tortor in urna dictum feugiat.", "Integer a sodales lectus. Fusce mattis enim."};
-
     printf("%s\t", SAt[c]);
-    }   
+    }
+
+int addprod(int *p, int *q)
+    {
+    char c;
+    printf("\nQué producto quisieras agregar a tu carrito?\t");
+    scanf(" %c",&c);
+
+    c = toupper(c);
+
+    if (c >= 'A' && c <= 'G')
+        {
+        *p = c - 'A' + 1;
+        printf("\nDe acuerdo, y cuántos productos %c quieres?\t",c);
+        scanf(" %i",q);
+
+        printf("\n Agregaste %i productos %c a tu carrito\n\n",*q,c);
+        }
+
+    else
+        printf("\nCaracter no válido. Debe ser un caracter de la A a la G.\n");
+    }
+
+void ticketprnt()
+{
+    for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < 8; j++) {
+            printf("%i ", ticket[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void checkticket(int n)
+    {
+        int costo;
+        char noms[][10] = {"*SALA*", "*BAÑO*", "*CUARTO*", "*COCINA*", "*PATIO*"};
+        
+        printf("\t%s",noms[n-1]);
+        printf("\n%i productos en el depto:\n", ticket[n][0]);
+        printf("\t");
+        
+        for (int i = 1; i < 7; i++)
+            {
+            printf("%ipz ", ticket[n][i]);
+            printf("%s  ", SAt[i]);
+            printf("- $%.2f    ",(precios[n-1][i]*ticket[n][i]));
+                if (i == 2 || i == 5)
+                    printf("\n\t");
+            }
+        printf("\n\n");
+    }
