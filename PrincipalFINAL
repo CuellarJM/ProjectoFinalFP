@@ -1,0 +1,551 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+float precios[5][7] = {
+    {857.32, 1623.47, 459.63, 2098.75, 376.89, 764.91, 1332.58},
+    {987.65, 624.39, 731.24, 847.50, 562.78, 145.36, 295.81},
+    {521.99, 875.43, 1096.82, 679.25, 234.56, 1500.73, 358.97},
+    {983.24, 1206.58, 376.54, 802.91, 653.27, 1147.89, 2364.75},
+    {1649.38, 2938.51, 548.79, 873.49, 724.16, 210.73, 999.99}};
+
+char SALt[][150] = {"Alfombra AGAM",
+                    "Butaca BILLY",
+                    "Cojín CILLA",
+                    "Diván DAGSTORP",
+                    "Estantería EKET",
+                    "Felpudo FJÄLLA",
+                    "Gabinete GRÖNLID",
+                    "Suave y resistente alfombra de pelo corto.",
+                    "Cómoda butaca tapizada con reposabrazos.",
+                    "Cojín decorativo con diseño moderno y elegante.",
+                    "Diván acolchado con chaise longue reversible.",
+                    "Estantería modular de diseño versátil y funcional.",
+                    "Felpudo de fibra de coco duradero y resistente.",
+                    "Gabinete con puertas de vidrio y almacenamiento oculto."};
+
+char BANt[][150] = {"Alfombra ATOFTBO",
+                    "Botiquín BROGRUND",
+                    "Cortina CRUNDTAL",
+                    "Dispensador DRAGAN",
+                    "Espejo ENHET",
+                    "Felpudo FLODALEN",
+                    "Ganchos GISKEN",
+                    "Alfombra de baño suave y absorbente.",
+                    "Botiquín de espejo con estantes ajustables.",
+                    "Cortina de ducha de tela resistente al agua.",
+                    "Dispensador de jabón de bambú con diseño elegante.",
+                    "Espejo de baño con estante para almacenamiento.",
+                    "Felpudo de baño de microfibra suave y absorbente.",
+                    "Ganchos de ventosa para colgar objetos en la ducha."};
+
+char CUAt[][150] = {
+    "Almohada ANGSVIDE",
+    "Banco BRIMNES",
+    "Colchón COLDBROOK",
+    "Duvet DAGGRUTA",
+    "Escritorio EKEDALEN",
+    "Funda FJADRAR",
+    "Galán GUBBARP",
+    "Almohada ergonómica para un mejor descanso.",
+    "Banco con almacenamiento para el pie de la cama.",
+    "Colchón de espuma viscoelástica para un sueño confortable.",
+    "Edredón ligero y cálido para todas las estaciones.",
+    "Escritorio extensible con cajón de almacenamiento.",
+    "Funda de almohada suave y duradera.",
+    "Galán de noche con perchas para ropa."};
+
+char COCt[][150] = {"Abrelatas ANTAGEN",
+                    "Bandeja BÄRBAR",
+                    "Cortador CHOSIGT",
+                    "Dispensador DROPPAR",
+                    "Escurridor EKORRE",
+                    "Frutero FÖRNUFT",
+                    "Grifo GRANSKÄR",
+                    "Abridor de latas de diseño ergonómico.",
+                    "Bandeja de plástico resistente para servir.",
+                    "Cortador de verduras multifuncional.",
+                    "Dispensador de condimentos con tapa dosificadora.",
+                    "Escurridor de platos plegable para ahorrar espacio.",
+                    "Frutero de alambre de acero para organizar frutas.",
+                    "Grifo de cocina con ducha extraíble y giratoria."};
+
+char PATt[][150] = {"Asador ARHOLMA",
+                    "Banco de jardín BONDHOLMEN",
+                    "Cajonera CHAPLIN",
+                    "Dosel DYNING",
+                    "Estera EKERÖN",
+                    "Farol FÖRMEDLA",
+                    "Gazebo GÅLÖ",
+                    "Asador portátil de acero inoxidable.",
+                    "Banco de madera para exteriores.",
+                    "Caja de almacenamiento resistente a la intemperie.",
+                    "Dosel para protección solar con estructura de aluminio.",
+                    "Estera de plástico tejido para proteger el suelo.",
+                    "Farol de metal para iluminar el patio por la noche.",
+                    "Gazebo plegable con cortinas para crear sombra."};
+
+void strprnt(char n[]);
+void separador();
+void SALmenu(int c);
+void BANmenu(int c);
+void CUAmenu(int c);
+void COCmenu(int c);
+void PATmenu(int c);
+int modprod(int *p, int *q);
+void ticketprnt();
+void checkticket(int n);
+
+int ticket[6][8];
+
+int main() {
+  char nombre[150], direc[150];
+  long numtar;
+
+  int flag, depto, prod = 0, cant = 0;
+  int vigmes, vigano, ccv, count;
+
+  char opc, mas, num;
+  char Abc[][6] = {"A", "B", "C", "D", "E", "F", "G"};
+
+  for (int i = 0; i < 5; i++) {
+    for (int j = 0; j < 7; j++) {
+      ticket[i][j] = 0;
+    }
+  }
+
+  printf("\nHola! Bienvenido a la tienda en línea de IKEA\n\n");
+  opc = 'n';
+
+  do {
+    fflush(stdin);
+
+    printf("\nCual es tu nombre?\t");
+    gets(nombre); // PROBLEMA CON LOOP
+    printf("\nExcelente ");
+    strprnt(nombre);
+    printf(", Podrías compartirnos tu dirección?\t");
+    gets(direc);
+
+    printf("\n\nDe acuerdo, entonces tu domicilio es ");
+    strprnt(direc);
+    printf(",\nahí se hará la entrega de tus productos.\n\n");
+
+    separador();
+
+    printf("\n\nAntes de continuar revisemos tus datos :)\n\n");
+
+    strprnt(nombre);
+    printf("\n");
+    strprnt(direc);
+    printf("\n\nEstás de acuerdo? [s/n]\t");
+    scanf(" %c", &opc);
+    printf("\n\n");
+  } while (opc == 'n'); // No pide el nombre cuando da loop
+
+  do {
+    separador();
+    separador();
+
+    printf("\n\nA continuación te presentamos los diferentes departamentos que "
+           "tenemos en línea.");
+
+    printf("\n\n1) SALA\n2) BAÑO\n3) CUARTO\n4) COCINA\n5) PATIO\n6) SALIR");
+
+    printf("\n\nQué departamento deseas visitar?\t");
+    scanf("%i", &depto);
+    printf("\n\n");
+
+    opc = 'n';
+    switch (depto) {
+    case 1:
+      separador();
+      printf("\n\n\t\t\t*** SALA ***\n\n");
+
+      for (int c = 0; c < 7; c++) {
+        printf("%s\t", Abc[c]);
+        SALmenu(c);
+        printf("\t\t$ %.2f\n\t", precios[depto - 1][c]);
+        SALmenu(c + 7);
+        printf("\n\n");
+      }
+
+      do {
+        modprod(&prod, &cant);
+        ticket[depto][prod] = ticket[depto][prod] + cant;
+        num = ticket[depto][prod];
+
+        if (num < 0) {
+          ticket[depto][prod] = 0;
+        }
+
+        ticket[depto][0] = ticket[depto][0] + cant;
+        ticket[0][5] =
+            ticket[0][5] + ticket[depto][prod] * precios[depto - 1][prod - 1];
+
+        separador();
+        printf("\n");
+        checkticket(depto);
+        separador();
+
+        printf(
+            "\n\nDeseas continuar (c) editando tu carrito o salir(s)? [c/s]\t");
+        scanf(" %c", &opc);
+      } while (opc != 's');
+
+      break;
+
+    case 2:
+
+      separador();
+      printf("\n\n\t\t\t*** BAÑO ***\n\n");
+
+      for (int c = 0; c < 7; c++) {
+        printf("%s\t", Abc[c]);
+        BANmenu(c);
+        printf("\t\t$ %.2f\n\t", precios[depto - 1][c]);
+        BANmenu(c + 7);
+        printf("\n\n");
+      }
+
+      do {
+        modprod(&prod, &cant);
+        ticket[depto][prod] = ticket[depto][prod] + cant;
+        num = ticket[depto][prod];
+
+        if (num < 0) {
+          ticket[depto][prod] = 0;
+        }
+
+        ticket[depto][0] = ticket[depto][0] + cant;
+        ticket[0][5] =
+            ticket[0][5] + ticket[depto][prod] * precios[depto - 1][prod - 1];
+
+        separador();
+        printf("\n");
+        checkticket(depto);
+        separador();
+
+        printf(
+            "\n\nDeseas continuar (c) editando tu carrito o salir(s)? [c/s]\t");
+        scanf(" %c", &opc);
+      } while (opc != 's');
+
+      break;
+
+    case 3:
+
+      separador();
+      printf("\n\n\t\t\t*** CUARTO ***\n\n");
+
+      for (int c = 0; c < 7; c++) {
+        printf("%s\t", Abc[c]);
+        CUAmenu(c);
+        printf("\t\t$ %.2f\n\t", precios[depto - 1][c]);
+        CUAmenu(c + 7);
+        printf("\n\n");
+      }
+
+      do {
+        modprod(&prod, &cant);
+        ticket[depto][prod] = ticket[depto][prod] + cant;
+        num = ticket[depto][prod];
+
+        if (num < 0) {
+          ticket[depto][prod] = 0;
+        }
+
+        ticket[depto][0] = ticket[depto][0] + cant;
+        ticket[0][5] =
+            ticket[0][5] + ticket[depto][prod] * precios[depto - 1][prod - 1];
+
+        separador();
+        printf("\n");
+        checkticket(depto);
+        separador();
+
+        printf(
+            "\n\nDeseas continuar (c) editando tu carrito o salir(s)? [c/s]\t");
+        scanf(" %c", &opc);
+      } while (opc != 's');
+
+      break;
+
+    case 4:
+
+      separador();
+      printf("\n\n\t\t\t*** COCINA ***\n\n");
+
+      for (int c = 0; c < 7; c++) {
+        printf("%s\t", Abc[c]);
+        COCmenu(c);
+        printf("\t\t$ %.2f\n\t", precios[depto - 1][c]);
+        COCmenu(c + 7);
+        printf("\n\n");
+      }
+
+      do {
+        modprod(&prod, &cant);
+        ticket[depto][prod] = ticket[depto][prod] + cant;
+        num = ticket[depto][prod];
+
+        if (num < 0) {
+          ticket[depto][prod] = 0;
+        }
+
+        ticket[depto][0] = ticket[depto][0] + cant;
+        ticket[0][5] =
+            ticket[0][5] + ticket[depto][prod] * precios[depto - 1][prod - 1];
+
+        separador();
+        printf("\n");
+        checkticket(depto);
+        separador();
+
+        printf(
+            "\n\nDeseas continuar (c) editando tu carrito o salir(s)? [c/s]\t");
+        scanf(" %c", &opc);
+      } while (opc != 's');
+
+      break;
+
+    case 5:
+
+      separador();
+      printf("\n\n\t\t\t*** SALA ***\n\n");
+
+      for (int c = 0; c < 7; c++) {
+        printf("%s\t", Abc[c]);
+        PATmenu(c);
+        printf("\t\t$ %.2f\n\t", precios[depto - 1][c]);
+        PATmenu(c + 7);
+        printf("\n\n");
+      }
+
+      do {
+        modprod(&prod, &cant);
+        ticket[depto][prod] = ticket[depto][prod] + cant;
+        num = ticket[depto][prod];
+
+        if (num < 0) {
+          ticket[depto][prod] = 0;
+        }
+
+        ticket[depto][0] = ticket[depto][0] + cant;
+        ticket[0][5] =
+            ticket[0][5] + ticket[depto][prod] * precios[depto - 1][prod - 1];
+
+        separador();
+        printf("\n");
+        checkticket(depto);
+        separador();
+
+        printf(
+            "\n\nDeseas continuar (c) editando tu carrito o salir(s)? [c/s]\t");
+        scanf(" %c", &opc);
+      } while (opc != 's');
+
+      break;
+    }
+  } while (depto != 6);
+
+  ticket[0][4] =
+      ticket[1][0] + ticket[2][0] + ticket[3][0] + ticket[4][0] + ticket[5][0];
+
+  float total_cost = 0.0;
+  for (int i = 1; i <= 5; i++) {
+    for (int j = 1; j <= 7; j++) {
+      total_cost += ticket[i][j] * precios[i - 1][j - 1];
+    }
+  }
+
+  separador();
+
+  printf("\n\nBienvenido al área de checkout!\n");
+  printf("Revisemos tu ticket :)\n\n");
+
+  for (int c = 1; c <= 5; c++) {
+    checkticket(c);
+  }
+  printf("\n\n\t\t");
+  printf("TOTAL de productos en tu ticket = %i", ticket[0][4]);
+  printf("\n\t\t");
+  printf("TOTAL en tu ticket = $%.2f", total_cost);
+
+  separador();
+  printf("\n\n\t\t\t*** PAGO ***\n\n");
+  separador();
+
+  do {
+    printf("\nPor favor introduce tu número de tarjeta a 16 dígitos\n\t");
+
+    scanf("%ld", &numtar);
+
+    int count = 0;
+    long temp = numtar;
+
+    while (numtar != 0) {
+      numtar = numtar / 10;
+      count++;
+    }
+    if (count == 16)
+      break;
+    else {
+      printf("\t\tEl número de tarjeta debe tener 16 dígitos. Por favor, "
+             "inténtalo de nuevo.\n");
+      fflush(stdin);
+    }
+  } while (1);
+
+  printf("\nPor favor introduce la vigencia de tu tarjeta [mm/aa] separados "
+         "por comas\n\t");
+  scanf("%i,%i", &vigmes, &vigano);
+
+  printf("\nPor favor introduce el Código de seguridad de tu tarjeta [CCV] a "
+         "tres dígitos\n\t");
+  scanf("%i", &ccv);
+
+  printf("\n\n\n\n");
+  separador();
+  printf("\n\n\t\t\t*** TICKET DE COMPRA ***\n\n");
+  separador();
+
+  printf("\nTicket No.");
+  printf(" %d%d", rand(), rand());
+
+  time_t rawtime;
+  struct tm *timeinfo;
+
+  time(&rawtime);
+  timeinfo = localtime(&rawtime);
+  printf("\nGenerado el ");
+  printf("%s", asctime(timeinfo));
+
+  printf("\nCliente\t");
+  strprnt(nombre);
+
+  printf("\nDirección\t");
+  strprnt(direc);
+
+  printf("\n\n");
+
+  for (int c = 1; c <= 5; c++) {
+    checkticket(c);
+  }
+  printf("\n\n\t\t");
+  printf("TOTAL de productos en tu ticket = %i", ticket[0][4]);
+  printf("\n\t\t");
+  printf("TOTAL en tu ticket = $%.2f", total_cost);
+}
+// FIN CODIGO
+
+// FUNCIONES
+
+void strprnt(char n[]) {
+  for (int c = 0; c < strlen(n); c++) {
+    printf("%c", n[c]);
+  }
+}
+
+void separador() {
+  printf("\n* - * - * - * - * - * - * - * - * - * - * - * - *\n");
+}
+
+void SALmenu(int c) { printf("%s\t", SALt[c]); }
+
+void BANmenu(int c) { printf("%s\t", BANt[c]); }
+
+void CUAmenu(int c) { printf("%s\t", CUAt[c]); }
+
+void COCmenu(int c) { printf("%s\t", COCt[c]); }
+
+void PATmenu(int c) { printf("%s\t", PATt[c]); }
+
+int modprod(int *p, int *q) {
+  char c, o;
+
+  printf("\nDeseas agregar(a) o eliminar (e) un producto?\t");
+  scanf(" %c", &o);
+
+  while (o != 'a' && o != 'e') {
+    printf("\n[a] Agregar / [e] Eliminar\t");
+    scanf(" %c", &o);
+  }
+
+  if (o == 'a')
+    printf("\nQué producto quisieras agregar a tu carrito?\t");
+  else
+    printf("\nQué producto quisieras eliminar de tu carrito?\t");
+
+  scanf(" %c", &c);
+
+  c = toupper(c);
+
+  if (c >= 'A' && c <= 'G') {
+    *p = c - 'A' + 1;
+
+    if (o == 'a')
+      printf("\nDe acuerdo, y cuántos productos %c quieres agregar?\t", c);
+    else
+      printf("\nDe acuerdo, y cuántos productos %c quieres eliminar?\t", c);
+
+    scanf(" %i", q);
+
+    if (o == 'e')
+      *q = -(*q);
+
+    if (o == 'a')
+      printf("\n\tAgregaste %i productos %c a tu carrito\n\n", *q, c);
+    else
+      printf("\n\tEliminaste %i productos %c a tu carrito\n\n", abs(*q), c);
+
+  }
+
+  else
+    printf("\nCaracter no válido. Debe ser un caracter de la A a la G.\n");
+}
+
+void ticketprnt() {
+  for (int i = 0; i < 6; i++) {
+    for (int j = 0; j < 8; j++) {
+      printf("%i ", ticket[i][j]);
+    }
+    printf("\n");
+  }
+}
+
+void checkticket(int n) {
+  int costo;
+  char noms[][10] = {"*SALA*", "*BAÑO*", "*CUARTO*", "*COCINA*", "*PATIO*"};
+
+  printf("\t%s", noms[n - 1]);
+  printf("\n%i productos en el depto:\n", ticket[n][0]);
+  printf("\t");
+
+  for (int i = 1; i < 7; i++) {
+    printf("%ipz ", ticket[n][i]);
+    switch (n) {
+    case 1:
+      printf("%s  ", SALt[i - 1]);
+      break;
+    case 2:
+      printf("%s  ", BANt[i - 1]);
+      break;
+    case 3:
+      printf("%s  ", CUAt[i - 1]);
+      break;
+    case 4:
+      printf("%s  ", COCt[i - 1]);
+      break;
+    case 5:
+      printf("%s  ", PATt[i - 1]);
+      break;
+    }
+
+    printf("- $%.2f    ", (precios[n - 1][i - 1] * ticket[n][i]));
+    if (i == 2 || i == 4 || i == 6)
+      printf("\n\t");
+  }
+  printf("\n\n");
+}
