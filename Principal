@@ -9,6 +9,7 @@ void strprnt(char n[]);
 void separador();
 void SALmenu(int c);
 int addprod(int *p, int *q);
+int remprod(int *p, int *q, int *d);
 void ticketprnt();
 void checkticket(int n);
 
@@ -157,6 +158,8 @@ printf("TOTAL de productos en tu ticket = %i", ticket[0][4]);
 printf("\n\t\t");
 printf("TOTAL en tu ticket = $%.2f", total_cost);
     
+remprod(&prod, &cant, &depto);
+    
 }
 //FIN CODIGO
     
@@ -196,6 +199,34 @@ int addprod(int *p, int *q)
         scanf(" %i",q);
 
         printf("\n Agregaste %i productos %c a tu carrito\n\n",*q,c);
+        }
+
+    else
+        printf("\nCaracter no válido. Debe ser un caracter de la A a la G.\n");
+    }
+    
+int remprod(int *p, int *q, int *d)
+    {
+    char c;
+    
+    printf("\nDe que depto. quisieras eliminar un producto?\t");
+    printf("\n1) SALA\t2) BAÑO\t3) CUARTO\t4) COCINA\t5) PATIO");
+    scanf(" %i",d);
+    
+    printf("\nQué producto quisieras eliminar de tu carrito?\t");
+    checkticket(d);
+        
+    scanf(" %c",&c);
+
+    c = toupper(c);
+
+    if (c >= 'A' && c <= 'G')
+        {
+        *p = c - 'A' + 1;
+        printf("\nDe acuerdo, y cuántos productos %c quieres eliminar?\t",c);
+        scanf(" %i",q);
+        
+        printf("\n Eliminaste %i productos %c a tu carrito\n\n",*q,c);
         }
 
     else
